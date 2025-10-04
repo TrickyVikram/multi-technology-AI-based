@@ -16,7 +16,7 @@ class JobController extends Controller
     public function index(): JsonResponse
     {
         try {
-            $jobs = Job::all();
+            $jobs = Job::with('category')->get();
 
             return response()->json([
                 'success' => true,
@@ -49,6 +49,7 @@ class JobController extends Controller
                 'location' => 'required|string|max:255',
                 'salary' => 'nullable|string|max:100',
                 'job_type' => 'required|in:full-time,part-time,contract,freelance,internship',
+                'category_id' => 'nullable|exists:job_categories,id',
                 'requirements' => 'nullable|array',
                 'application_deadline' => 'nullable|date|after:today'
             ]);
@@ -86,6 +87,8 @@ class JobController extends Controller
     public function show(Job $job): JsonResponse
     {
         try {
+            $job->load('category');
+
             return response()->json([
                 'success' => true,
                 'message' => 'Job retrieved successfully',
@@ -117,6 +120,7 @@ class JobController extends Controller
                 'location' => 'sometimes|required|string|max:255',
                 'salary' => 'nullable|string|max:100',
                 'job_type' => 'sometimes|required|in:full-time,part-time,contract,freelance,internship',
+                'category_id' => 'nullable|exists:job_categories,id',
                 'requirements' => 'nullable|array',
                 'application_deadline' => 'nullable|date|after:today'
             ]);
