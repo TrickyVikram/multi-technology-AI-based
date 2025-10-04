@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Container, Navbar, Nav } from 'react-bootstrap';
+import ThemeToggle from './components/ThemeToggle';
 import JobApplicationForm from './components/JobApplicationForm';
 import JobApplyForm from './components/JobApplyForm';
 import ApplicationSuccess from './components/ApplicationSuccess';
@@ -17,10 +18,13 @@ function App() {
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="ms-auto">
+                        <Nav className="ms-auto align-items-center">
                             <Nav.Link href="/">Job Apply Form</Nav.Link>
                             <Nav.Link href="/full-form">Full Application</Nav.Link>
                             <Nav.Link href="/applications">View Applications</Nav.Link>
+                            <Nav.Item className="ms-3">
+                                <ThemeToggle />
+                            </Nav.Item>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
