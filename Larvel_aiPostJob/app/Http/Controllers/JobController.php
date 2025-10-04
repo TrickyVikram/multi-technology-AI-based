@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Job;
+use App\Http\Requests\StoreJobRequest;
+use App\Http\Requests\UpdateJobRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
@@ -36,39 +38,27 @@ class JobController extends Controller
     /**
      * Store a newly created job in storage.
      *
-     * @param Request $request
+     * @param StoreJobRequest $request
      * @return JsonResponse
      */
-    public function store(Request $request): JsonResponse
+    public function store(StoreJobRequest $request): JsonResponse
     {
         try {
-            $validatedData = $request->validate([
-                'title' => 'required|string|max:255',
-                'description' => 'required|string',
-                'company' => 'required|string|max:255',
-                'location' => 'required|string|max:255',
-                'salary' => 'nullable|string|max:100',
-                'job_type' => 'required|in:full-time,part-time,contract,freelance,internship',
-                'category_id' => 'nullable|exists:job_categories,id',
-                'requirements' => 'nullable|array',
-                'application_deadline' => 'nullable|date|after:today'
-            ]);
-
+            $validatedData = $request->validated();
             $validatedData['posted_date'] = now();
 
             $job = Job::create($validatedData);
+            $job->load('category');
 
             return response()->json([
                 'success' => true,
                 'message' => 'Job created successfully',
-                'data' => $job
+                'data' => $job,
+                'validation_info' => [
+                    'all_required_fields_provided' => true,
+                    'data_cleaned_and_validated' => true
+                ]
             ], 201);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Validation failed',
-                'errors' => $e->errors()
-            ], 422);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -106,38 +96,25 @@ class JobController extends Controller
     /**
      * Update the specified job in storage.
      *
-     * @param Request $request
+     * @param UpdateJobRequest $request
      * @param Job $job
      * @return JsonResponse
      */
-    public function update(Request $request, Job $job): JsonResponse
+    public function update(UpdateJobRequest $request, Job $job): JsonResponse
     {
         try {
-            $validatedData = $request->validate([
-                'title' => 'sometimes|required|string|max:255',
-                'description' => 'sometimes|required|string',
-                'company' => 'sometimes|required|string|max:255',
-                'location' => 'sometimes|required|string|max:255',
-                'salary' => 'nullable|string|max:100',
-                'job_type' => 'sometimes|required|in:full-time,part-time,contract,freelance,internship',
-                'category_id' => 'nullable|exists:job_categories,id',
-                'requirements' => 'nullable|array',
-                'application_deadline' => 'nullable|date|after:today'
-            ]);
-
+            $validatedData = $request->validated();
             $job->update($validatedData);
 
             return response()->json([
                 'success' => true,
                 'message' => 'Job updated successfully',
-                'data' => $job->fresh()
+                'data' => $job->fresh(['category']),
+                'validation_info' => [
+                    'fields_updated' => array_keys($validatedData),
+                    'data_cleaned_and_validated' => true
+                ]
             ], 200);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Validation failed',
-                'errors' => $e->errors()
-            ], 422);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -156,6 +133,16 @@ class JobController extends Controller
     public function destroy(Job $job): JsonResponse
     {
         try {
+            // Check if job has applications
+            if ($job->applications()->count() > 0) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Cannot delete job that has applications',
+                    'applications_count' => $job->applications()->count(),
+                    'suggestion' => 'Consider marking the job as closed instead of deleting it'
+                ], 400);
+            }
+
             $job->delete();
 
             return response()->json([
@@ -169,5 +156,27 @@ class JobController extends Controller
                 'error' => $e->getMessage()
             ], 500);
         }
+    }
+
+    /**
+     * Validate job posting form data without saving.
+     * Useful for frontend form validation.
+     *
+     * @param StoreJobRequest $request
+     * @return JsonResponse
+     */
+    public function validateForm(StoreJobRequest $request): JsonResponse
+    {
+        // If we reach this point, validation passed
+        return response()->json([
+            'success' => true,
+            'message' => 'Form validation passed successfully',
+            'validated_data' => $request->validated(),
+            'validation_summary' => [
+                'all_required_fields_valid' => true,
+                'data_cleaned' => true,
+                'ready_for_submission' => true
+            ]
+        ], 200);
     }
 }

@@ -13,6 +13,9 @@ Route::get('/user', function (Request $request) {
 // Job API routes
 Route::apiResource('jobs', JobController::class);
 
+// Job form validation endpoint
+Route::post('jobs/validate', [JobController::class, 'validateForm']);
+
 // Job Category API routes
 Route::apiResource('job-categories', JobCategoryController::class);
 
