@@ -4,16 +4,17 @@ This API endpoint allows users to apply for jobs with comprehensive application 
 
 ## Features
 
-- ✅ Submit job applications with validation
-- ✅ Prevent duplicate applications (same email + job)
-- ✅ Application deadline validation
-- ✅ Admin application management with status updates
-- ✅ Email notifications (logged for demo)
-- ✅ Comprehensive error handling
+-   ✅ Submit job applications with validation
+-   ✅ Prevent duplicate applications (same email + job)
+-   ✅ Application deadline validation
+-   ✅ Admin application management with status updates
+-   ✅ Email notifications (logged for demo)
+-   ✅ Comprehensive error handling
 
 ## API Endpoints
 
 ### Base URL
+
 ```
 http://127.0.0.1:8000/api
 ```
@@ -21,12 +22,14 @@ http://127.0.0.1:8000/api
 ### Job Applications API
 
 #### Submit Job Application
+
 ```http
 POST /api/job-applications
 Content-Type: application/json
 ```
 
 **Request Body:**
+
 ```json
 {
     "job_id": 1,
@@ -40,6 +43,7 @@ Content-Type: application/json
 ```
 
 **Response (201):**
+
 ```json
 {
     "success": true,
@@ -68,15 +72,18 @@ Content-Type: application/json
 ```
 
 #### Get All Job Applications
+
 ```http
 GET /api/job-applications
 ```
 
 **Query Parameters:**
-- `job_id` (optional) - Filter by specific job
-- `status` (optional) - Filter by status (pending, reviewed, accepted, rejected)
+
+-   `job_id` (optional) - Filter by specific job
+-   `status` (optional) - Filter by status (pending, reviewed, accepted, rejected)
 
 **Response:**
+
 ```json
 {
     "success": true,
@@ -109,11 +116,13 @@ GET /api/job-applications
 ```
 
 #### Get Single Job Application
+
 ```http
 GET /api/job-applications/{id}
 ```
 
 **Response:**
+
 ```json
 {
     "success": true,
@@ -131,12 +140,14 @@ GET /api/job-applications/{id}
 ```
 
 #### Update Application Status (Admin)
+
 ```http
 PUT /api/job-applications/{id}
 Content-Type: application/json
 ```
 
 **Request Body:**
+
 ```json
 {
     "status": "reviewed",
@@ -145,6 +156,7 @@ Content-Type: application/json
 ```
 
 **Response:**
+
 ```json
 {
     "success": true,
@@ -161,11 +173,13 @@ Content-Type: application/json
 ```
 
 #### Get Applications for Specific Job
+
 ```http
 GET /api/jobs/{job_id}/applications
 ```
 
 **Response:**
+
 ```json
 {
     "success": true,
@@ -188,11 +202,13 @@ GET /api/jobs/{job_id}/applications
 ```
 
 #### Delete Job Application
+
 ```http
 DELETE /api/job-applications/{id}
 ```
 
 **Response:**
+
 ```json
 {
     "success": true,
@@ -203,40 +219,47 @@ DELETE /api/job-applications/{id}
 ## Field Validation
 
 ### Required Fields
-- `job_id` (integer, must exist in job_listings table)
-- `applicant_name` (string, max: 255)
-- `applicant_email` (valid email, max: 255)
-- `resume_url` (valid URL)
+
+-   `job_id` (integer, must exist in job_listings table)
+-   `applicant_name` (string, max: 255)
+-   `applicant_email` (valid email, max: 255)
+-   `resume_url` (valid URL)
 
 ### Optional Fields
-- `user_id` (integer, must exist in users table)
-- `phone` (string, max: 20)
-- `cover_letter` (string, max: 2000)
+
+-   `user_id` (integer, must exist in users table)
+-   `phone` (string, max: 20)
+-   `cover_letter` (string, max: 2000)
 
 ### Status Values
-- `pending` (default)
-- `reviewed`
-- `accepted`
-- `rejected`
+
+-   `pending` (default)
+-   `reviewed`
+-   `accepted`
+-   `rejected`
 
 ## Business Rules
 
 ### Duplicate Prevention
-- Same email cannot apply for the same job twice
-- Returns 409 status with existing application ID
+
+-   Same email cannot apply for the same job twice
+-   Returns 409 status with existing application ID
 
 ### Deadline Validation
-- Applications rejected if job's application_deadline has passed
-- Returns 400 status with appropriate message
+
+-   Applications rejected if job's application_deadline has passed
+-   Returns 400 status with appropriate message
 
 ### Email Notifications
-- Admin receives notification on new application
-- Applicant receives notification on status changes
-- Currently logged to Laravel logs (can be extended to real email)
+
+-   Admin receives notification on new application
+-   Applicant receives notification on status changes
+-   Currently logged to Laravel logs (can be extended to real email)
 
 ## Error Responses
 
 **Validation Error (422):**
+
 ```json
 {
     "success": false,
@@ -249,6 +272,7 @@ DELETE /api/job-applications/{id}
 ```
 
 **Duplicate Application (409):**
+
 ```json
 {
     "success": false,
@@ -258,6 +282,7 @@ DELETE /api/job-applications/{id}
 ```
 
 **Deadline Passed (400):**
+
 ```json
 {
     "success": false,
@@ -266,6 +291,7 @@ DELETE /api/job-applications/{id}
 ```
 
 **Not Found (404):**
+
 ```json
 {
     "success": false,
@@ -277,6 +303,7 @@ DELETE /api/job-applications/{id}
 ## Database Schema
 
 ### job_applications Table
+
 ```sql
 - id (bigint, primary key)
 - job_id (bigint, foreign key to job_listings.id)
@@ -297,6 +324,7 @@ DELETE /api/job-applications/{id}
 ## Testing Examples
 
 ### Submit Application
+
 ```bash
 curl -X POST "http://127.0.0.1:8000/api/job-applications" \
   -H "Accept: application/json" \
@@ -312,6 +340,7 @@ curl -X POST "http://127.0.0.1:8000/api/job-applications" \
 ```
 
 ### Get Applications with Filter
+
 ```bash
 # Get all pending applications
 curl "http://127.0.0.1:8000/api/job-applications?status=pending"
@@ -321,6 +350,7 @@ curl "http://127.0.0.1:8000/api/job-applications?job_id=1"
 ```
 
 ### Update Application Status
+
 ```bash
 curl -X PUT "http://127.0.0.1:8000/api/job-applications/1" \
   -H "Accept: application/json" \
@@ -333,9 +363,9 @@ curl -X PUT "http://127.0.0.1:8000/api/job-applications/1" \
 
 ## Model Relationships
 
-- `JobApplication` belongs to `Job`
-- `JobApplication` belongs to `User` (optional)
-- `Job` has many `JobApplication`
+-   `JobApplication` belongs to `Job`
+-   `JobApplication` belongs to `User` (optional)
+-   `Job` has many `JobApplication`
 
 ## Future Enhancements
 
