@@ -4,15 +4,16 @@ This Laravel application provides a REST API for managing job listings.
 
 ## Features
 
-- Create, read, update, and delete job listings
-- Proper JSON response structure
-- Input validation
-- Error handling
-- Sample data seeding
+-   Create, read, update, and delete job listings
+-   Proper JSON response structure
+-   Input validation
+-   Error handling
+-   Sample data seeding
 
 ## API Endpoints
 
 ### Base URL
+
 ```
 http://127.0.0.1:8000/api
 ```
@@ -20,11 +21,13 @@ http://127.0.0.1:8000/api
 ### Jobs API
 
 #### Get All Jobs
+
 ```http
 GET /api/jobs
 ```
 
 **Response:**
+
 ```json
 {
     "success": true,
@@ -50,11 +53,13 @@ GET /api/jobs
 ```
 
 #### Get Single Job
+
 ```http
 GET /api/jobs/{id}
 ```
 
 **Response:**
+
 ```json
 {
     "success": true,
@@ -77,12 +82,14 @@ GET /api/jobs/{id}
 ```
 
 #### Create New Job
+
 ```http
 POST /api/jobs
 Content-Type: application/json
 ```
 
 **Request Body:**
+
 ```json
 {
     "title": "Full Stack Developer",
@@ -97,6 +104,7 @@ Content-Type: application/json
 ```
 
 **Response:**
+
 ```json
 {
     "success": true,
@@ -119,12 +127,14 @@ Content-Type: application/json
 ```
 
 #### Update Job
+
 ```http
 PUT /api/jobs/{id}
 Content-Type: application/json
 ```
 
 **Request Body:**
+
 ```json
 {
     "title": "Updated Job Title",
@@ -133,6 +143,7 @@ Content-Type: application/json
 ```
 
 **Response:**
+
 ```json
 {
     "success": true,
@@ -144,11 +155,13 @@ Content-Type: application/json
 ```
 
 #### Delete Job
+
 ```http
 DELETE /api/jobs/{id}
 ```
 
 **Response:**
+
 ```json
 {
     "success": true,
@@ -159,53 +172,57 @@ DELETE /api/jobs/{id}
 ## Field Validation
 
 ### Required Fields
-- `title` (string, max: 255)
-- `description` (string)
-- `company` (string, max: 255)
-- `location` (string, max: 255)
-- `job_type` (enum: full-time, part-time, contract, freelance, internship)
+
+-   `title` (string, max: 255)
+-   `description` (string)
+-   `company` (string, max: 255)
+-   `location` (string, max: 255)
+-   `job_type` (enum: full-time, part-time, contract, freelance, internship)
 
 ### Optional Fields
-- `salary` (string, max: 100)
-- `requirements` (array)
-- `application_deadline` (date, must be after today)
+
+-   `salary` (string, max: 100)
+-   `requirements` (array)
+-   `application_deadline` (date, must be after today)
 
 ## Setup Instructions
 
 1. **Clone the repository**
 2. **Install dependencies:**
-   ```bash
-   composer install
-   ```
+    ```bash
+    composer install
+    ```
 3. **Set up environment:**
-   ```bash
-   cp .env.example .env
-   php artisan key:generate
-   ```
+    ```bash
+    cp .env.example .env
+    php artisan key:generate
+    ```
 4. **Configure database in `.env` file**
 5. **Run migrations and seed data:**
-   ```bash
-   php artisan migrate:fresh --seed
-   ```
+    ```bash
+    php artisan migrate:fresh --seed
+    ```
 6. **Start the server:**
-   ```bash
-   php artisan serve
-   ```
+    ```bash
+    php artisan serve
+    ```
 
 ## Sample Data
 
 The application comes with 5 sample job listings covering different tech roles:
-- Senior Laravel Developer
-- Frontend React Developer  
-- Python Data Scientist
-- Mobile App Developer (Flutter)
-- DevOps Engineer
+
+-   Senior Laravel Developer
+-   Frontend React Developer
+-   Python Data Scientist
+-   Mobile App Developer (Flutter)
+-   DevOps Engineer
 
 ## Error Responses
 
 All endpoints return proper error responses:
 
 **Validation Error (422):**
+
 ```json
 {
     "success": false,
@@ -217,6 +234,7 @@ All endpoints return proper error responses:
 ```
 
 **Server Error (500):**
+
 ```json
 {
     "success": false,
@@ -226,6 +244,7 @@ All endpoints return proper error responses:
 ```
 
 **Not Found (404):**
+
 ```json
 {
     "success": false,

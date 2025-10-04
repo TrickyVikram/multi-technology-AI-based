@@ -17,7 +17,7 @@ class JobController extends Controller
     {
         try {
             $jobs = Job::all();
-            
+
             return response()->json([
                 'success' => true,
                 'message' => 'Jobs retrieved successfully',
@@ -54,7 +54,7 @@ class JobController extends Controller
             ]);
 
             $validatedData['posted_date'] = now();
-            
+
             $job = Job::create($validatedData);
 
             return response()->json([
