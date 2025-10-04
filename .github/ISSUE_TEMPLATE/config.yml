@@ -1,0 +1,49 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🐞 Bug Report
+    url: https://github.com/TrickyVikram/multi-technology-AI-based/issues/new?labels=bug&template=bug_report.md
+    about: Report a bug to help us improve.
+
+  - name: 🌟 Feature Request
+    url: https://github.com/TrickyVikram/multi-technology-AI-based/issues/new?labels=enhancement&template=feature_request.md
+    about: Suggest a new feature or improvement.
+
+  - name: 🎯 Laravel — Create Job API Endpoint
+    url: https://github.com/TrickyVikram/multi-technology-AI-based/issues/new?labels=good%20first%20issue,backend,laravel&title=Laravel%20%E2%80%94%20Create%20Job%20API%20Endpoint
+    about: Create /api/jobs endpoint with JobController & Job model.
+
+  - name: 🐍 Django — Add JobCategory Model
+    url: https://github.com/TrickyVikram/multi-technology-AI-based/issues/new?labels=good%20first%20issue,django&title=Django%20%E2%80%94%20Add%20JobCategory%20Model
+    about: Add JobCategory model with name & description.
+
+  - name: ☕ Spring Boot — Add Basic Authentication
+    url: https://github.com/TrickyVikram/multi-technology-AI-based/issues/new?labels=help%20wanted,springboot,security&title=Spring%20Boot%20%E2%80%94%20Add%20Basic%20Authentication
+    about: Implement Spring Security basic authentication for /api/admin.
+
+  - name: 🧪 Flask — Add Form Validation
+    url: https://github.com/TrickyVikram/multi-technology-AI-based/issues/new?labels=enhancement,flask&title=Flask%20%E2%80%94%20Add%20Form%20Validation
+    about: Add form validation for job posting using Flask-WTF.
+
+  - name: ⚛️ React (MERN) — Create JobCard Component
+    url: https://github.com/TrickyVikram/multi-technology-AI-based/issues/new?labels=good%20first%20issue,react&title=React%20(MERN)%20%E2%80%94%20Create%20JobCard%20Component
+    about: Build a reusable JobCard component with Bootstrap/Tailwind styling.
+
+  - name: 🅰️ Angular (MEAN) — Build JobForm Component
+    url: https://github.com/TrickyVikram/multi-technology-AI-based/issues/new?labels=good%20first%20issue,angular&title=Angular%20(MEAN)%20%E2%80%94%20Build%20JobForm%20Component
+    about: Create a job posting form using Angular Reactive Forms.
+
+  - name: 🌗 React — Add Dark/Light Mode Toggle
+    url: https://github.com/TrickyVikram/multi-technology-AI-based/issues/new?labels=enhancement,frontend,react&title=React%20%E2%80%94%20Add%20Dark%2FLight%20Mode%20Toggle
+    about: Add dark/light theme switch with localStorage preference.
+
+  - name: 🤖 AI Module — Job Description Generator
+    url: https://github.com/TrickyVikram/multi-technology-AI-based/issues/new?labels=help%20wanted,ai&title=AI%20Module%20%E2%80%94%20Job%20Description%20Generator
+    about: Integrate AI prompt to auto-generate job descriptions.
+
+  - name: 📖 Documentation — Add Setup Guide
+    url: https://github.com/TrickyVikram/multi-technology-AI-based/issues/new?labels=documentation&title=Documentation%20%E2%80%94%20Add%20Setup%20Guide
+    about: Add setup guide for Laravel, Django, Flask, Spring Boot, MERN, MEAN.
+
+  - name: 🤖 CI/CD — Add GitHub Action for Linting
+    url: https://github.com/TrickyVikram/multi-technology-AI-based/issues/new?labels=enhancement,automation&title=CI%2FCD%20%E2%80%94%20Add%20GitHub%20Action%20for%20Linting
+    about: Add ESLint GitHub Action to run on every pull request.
