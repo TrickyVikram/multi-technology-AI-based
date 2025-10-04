@@ -2,13 +2,39 @@
 
 ## Overview
 
-The Job Filtering API provides comprehensive filtering, searching, and pagination capabilities for job listings. This API allows users to find jobs based on multiple criteria including category, location, job type, company, and more.
+The Job Filtering API provides comprehensive search and filtering capabilities for the job posting platform. It includes basic filtering, advanced filtering with insights, and filter options endpoints to help users find the most relevant job opportunities.
 
-## Base URL
+## Features
+
+### 🔍 Search & Filter Capabilities
+- **Text Search**: Search across job titles, descriptions, companies, and locations
+- **Category Filtering**: Filter by specific job categories
+- **Location Filtering**: Search by location with partial matching
+- **Job Type Filtering**: Filter by employment type (full-time, part-time, etc.)
+- **Salary Range Filtering**: Filter by minimum and maximum salary with smart parsing
+- **Date Range Filtering**: Filter by posting date and application deadline
+- **Skills Filtering**: Search for specific skills in job requirements
+
+### 📊 Advanced Features
+- **Pagination**: Configurable page size and navigation
+- **Sorting**: Multiple sort options with custom ordering including relevance scoring
+- **Remote Job Filtering**: Filter for remote-only positions
+- **Urgent Jobs**: Filter for jobs with upcoming deadlines
+- **Application Status**: Filter jobs that have received applications
+- **Salary Disclosure**: Filter jobs that publicly display salary information
+
+### 📈 Analytics & Insights
+- **Result Statistics**: Total matches, pagination info, applied filters
+- **Job Market Insights**: Average jobs per company, most common job types
+- **Remote Work Statistics**: Percentage of remote jobs available
+- **Filter Analytics**: Track which filters are most commonly used
+
+## Base URLs
 
 ```
-GET /api/jobs/filter/search
-GET /api/jobs/filter/options
+GET /api/jobs/filter/search       # Basic filtering
+GET /api/jobs/filter/advanced     # Advanced filtering with insights
+GET /api/jobs/filter/options      # Available filter options
 ```
 
 ## Filter Jobs Endpoint
