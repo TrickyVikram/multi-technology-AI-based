@@ -47,6 +47,16 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<String> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        StringBuilder errors = new StringBuilder();
+        ex.getBindingResult().getFieldErrors().forEach(error -> {
+            errors.append(error.getField()).append(": ").append(error.getDefaultMessage()).append("; ");
+        });
+        return ResponseEntity.badRequest().body(errors.toString());
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @Valid @RequestBody User userDetails) {
         userDetails.setPassword(passwordEncoder.encode(userDetails.getPassword()));
@@ -58,15 +68,7 @@ public class UserController {
         }
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<String> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        StringBuilder errors = new StringBuilder();
-        ex.getBindingResult().getFieldErrors().forEach(error -> {
-            errors.append(error.getField()).append(": ").append(error.getDefaultMessage()).append("; ");
-        });
-        return ResponseEntity.badRequest().body(errors.toString());
-    }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
