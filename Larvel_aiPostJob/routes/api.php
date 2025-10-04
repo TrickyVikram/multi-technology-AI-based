@@ -27,6 +27,7 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('jobs', [JobController::class, 'index']);
 Route::get('jobs/{job}', [JobController::class, 'show']);
 Route::get('jobs/filter/search', [JobController::class, 'filter']);
+Route::get('jobs/filter/advanced', [JobController::class, 'advancedFilter']);
 Route::get('jobs/filter/options', [JobController::class, 'getFilterOptions']);
 Route::post('jobs/validate', [JobController::class, 'validateForm']);
 
