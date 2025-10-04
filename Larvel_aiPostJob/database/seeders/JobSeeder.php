@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Job;
+use App\Models\JobCategory;
 use Carbon\Carbon;
 
 class JobSeeder extends Seeder
@@ -14,6 +15,11 @@ class JobSeeder extends Seeder
      */
     public function run(): void
     {
+        // Get category IDs
+        $softwareDev = JobCategory::where('name', 'Software Development')->first()->id;
+        $dataScience = JobCategory::where('name', 'Data Science & Analytics')->first()->id;
+        $devops = JobCategory::where('name', 'DevOps & Infrastructure')->first()->id;
+
         $jobs = [
             [
                 'title' => 'Senior Laravel Developer',
@@ -22,6 +28,7 @@ class JobSeeder extends Seeder
                 'location' => 'Remote',
                 'salary' => '$80,000 - $120,000',
                 'job_type' => 'full-time',
+                'category_id' => $softwareDev,
                 'requirements' => [
                     '5+ years of PHP experience',
                     'Expert knowledge of Laravel framework',
@@ -39,6 +46,7 @@ class JobSeeder extends Seeder
                 'location' => 'New York, NY',
                 'salary' => '$70,000 - $100,000',
                 'job_type' => 'full-time',
+                'category_id' => $softwareDev,
                 'requirements' => [
                     '3+ years of React.js experience',
                     'Proficiency in JavaScript ES6+',
@@ -56,6 +64,7 @@ class JobSeeder extends Seeder
                 'location' => 'San Francisco, CA',
                 'salary' => '$90,000 - $140,000',
                 'job_type' => 'full-time',
+                'category_id' => $dataScience,
                 'requirements' => [
                     'PhD or Masters in Data Science/Statistics',
                     'Expert in Python (pandas, numpy, scikit-learn)',
@@ -73,6 +82,7 @@ class JobSeeder extends Seeder
                 'location' => 'Austin, TX',
                 'salary' => '$65,000 - $95,000',
                 'job_type' => 'contract',
+                'category_id' => $softwareDev,
                 'requirements' => [
                     '2+ years of Flutter development',
                     'Dart programming language',
@@ -90,6 +100,7 @@ class JobSeeder extends Seeder
                 'location' => 'Remote',
                 'salary' => '$85,000 - $125,000',
                 'job_type' => 'full-time',
+                'category_id' => $devops,
                 'requirements' => [
                     'AWS/Azure/GCP experience',
                     'Docker and Kubernetes',

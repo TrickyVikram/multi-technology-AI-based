@@ -20,7 +20,8 @@ class Job extends Model
         'job_type',
         'requirements',
         'posted_date',
-        'application_deadline'
+        'application_deadline',
+        'category_id'
     ];
 
     protected $casts = [
@@ -28,4 +29,12 @@ class Job extends Model
         'application_deadline' => 'datetime',
         'requirements' => 'array'
     ];
+
+    /**
+     * Get the category that owns the job.
+     */
+    public function category()
+    {
+        return $this->belongsTo(JobCategory::class, 'category_id');
+    }
 }
