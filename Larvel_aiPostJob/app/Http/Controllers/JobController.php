@@ -88,7 +88,7 @@ class JobController extends Controller
     {
         try {
             $job->load('category');
-            
+
             return response()->json([
                 'success' => true,
                 'message' => 'Job retrieved successfully',

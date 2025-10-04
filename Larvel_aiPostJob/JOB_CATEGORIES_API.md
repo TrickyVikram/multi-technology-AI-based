@@ -8,15 +8,16 @@ The Job Category API allows you to manage job categories and organize jobs by th
 
 ## Features
 
-- Complete CRUD operations for job categories
-- Hierarchical relationship between categories and jobs
-- Categories include associated jobs in responses
-- Proper validation and error handling
-- Prevention of deleting categories with associated jobs
+-   Complete CRUD operations for job categories
+-   Hierarchical relationship between categories and jobs
+-   Categories include associated jobs in responses
+-   Proper validation and error handling
+-   Prevention of deleting categories with associated jobs
 
 ## API Endpoints
 
 ### Base URL
+
 ```
 http://127.0.0.1:8000/api
 ```
@@ -24,11 +25,13 @@ http://127.0.0.1:8000/api
 ### Job Categories API
 
 #### Get All Job Categories
+
 ```http
 GET /api/job-categories
 ```
 
 **Response:**
+
 ```json
 {
     "success": true,
@@ -56,11 +59,13 @@ GET /api/job-categories
 ```
 
 #### Get Single Job Category
+
 ```http
 GET /api/job-categories/{id}
 ```
 
 **Response:**
+
 ```json
 {
     "success": true,
@@ -87,12 +92,14 @@ GET /api/job-categories/{id}
 ```
 
 #### Create New Job Category
+
 ```http
 POST /api/job-categories
 Content-Type: application/json
 ```
 
 **Request Body:**
+
 ```json
 {
     "name": "Backend Development",
@@ -101,6 +108,7 @@ Content-Type: application/json
 ```
 
 **Response:**
+
 ```json
 {
     "success": true,
@@ -116,12 +124,14 @@ Content-Type: application/json
 ```
 
 #### Update Job Category
+
 ```http
 PUT /api/job-categories/{id}
 Content-Type: application/json
 ```
 
 **Request Body:**
+
 ```json
 {
     "name": "Full Stack Development",
@@ -130,6 +140,7 @@ Content-Type: application/json
 ```
 
 **Response:**
+
 ```json
 {
     "success": true,
@@ -141,11 +152,13 @@ Content-Type: application/json
 ```
 
 #### Delete Job Category
+
 ```http
 DELETE /api/job-categories/{id}
 ```
 
 **Success Response:**
+
 ```json
 {
     "success": true,
@@ -154,6 +167,7 @@ DELETE /api/job-categories/{id}
 ```
 
 **Error Response (Category has jobs):**
+
 ```json
 {
     "success": false,
@@ -165,14 +179,17 @@ DELETE /api/job-categories/{id}
 ## Field Validation
 
 ### Required Fields
-- `name` (string, max: 255, unique)
 
-### Optional Fields  
-- `description` (string, max: 1000)
+-   `name` (string, max: 255, unique)
+
+### Optional Fields
+
+-   `description` (string, max: 1000)
 
 ## Job-Category Relationship
 
 ### Updated Job Fields
+
 Jobs now include a `category_id` field:
 
 ```json
@@ -201,6 +218,7 @@ Jobs now include a `category_id` field:
 ```
 
 ### Creating/Updating Jobs with Categories
+
 When creating or updating jobs, you can specify a `category_id`:
 
 ```json
@@ -233,16 +251,19 @@ The application comes with 8 pre-loaded job categories:
 ## Testing Examples
 
 ### Get all categories
+
 ```bash
 curl -X GET "http://127.0.0.1:8000/api/job-categories" -H "Accept: application/json"
 ```
 
 ### Get single category with jobs
+
 ```bash
 curl -X GET "http://127.0.0.1:8000/api/job-categories/1" -H "Accept: application/json"
 ```
 
 ### Create new category
+
 ```bash
 curl -X POST "http://127.0.0.1:8000/api/job-categories" \
   -H "Accept: application/json" \
@@ -251,6 +272,7 @@ curl -X POST "http://127.0.0.1:8000/api/job-categories" \
 ```
 
 ### Update category
+
 ```bash
 curl -X PUT "http://127.0.0.1:8000/api/job-categories/1" \
   -H "Accept: application/json" \
@@ -259,11 +281,13 @@ curl -X PUT "http://127.0.0.1:8000/api/job-categories/1" \
 ```
 
 ### Delete category (only if no jobs)
+
 ```bash
 curl -X DELETE "http://127.0.0.1:8000/api/job-categories/9" -H "Accept: application/json"
 ```
 
 ### Create job with category
+
 ```bash
 curl -X POST "http://127.0.0.1:8000/api/jobs" \
   -H "Accept: application/json" \
@@ -286,6 +310,7 @@ curl -X POST "http://127.0.0.1:8000/api/jobs" \
 All endpoints return consistent error responses:
 
 **Validation Error (422):**
+
 ```json
 {
     "success": false,
@@ -297,6 +322,7 @@ All endpoints return consistent error responses:
 ```
 
 **Server Error (500):**
+
 ```json
 {
     "success": false,
@@ -306,6 +332,7 @@ All endpoints return consistent error responses:
 ```
 
 **Not Found (404):**
+
 ```json
 {
     "success": false,
