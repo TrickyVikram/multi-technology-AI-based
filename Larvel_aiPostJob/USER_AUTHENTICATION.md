@@ -7,30 +7,34 @@ This document describes the Laravel Sanctum-based authentication system implemen
 ## Features
 
 ### 🔐 Authentication System
-- **Token-based Authentication**: Using Laravel Sanctum for API token management
-- **User Registration**: Create new user accounts with email verification
-- **User Login**: Generate access tokens for authenticated sessions
-- **Secure Logout**: Revoke current access token
-- **Profile Management**: View and manage user profile information
-- **Token Management**: Revoke all tokens for security
+
+-   **Token-based Authentication**: Using Laravel Sanctum for API token management
+-   **User Registration**: Create new user accounts with email verification
+-   **User Login**: Generate access tokens for authenticated sessions
+-   **Secure Logout**: Revoke current access token
+-   **Profile Management**: View and manage user profile information
+-   **Token Management**: Revoke all tokens for security
 
 ### 🛡️ Security Features
-- **Password Hashing**: Secure password storage using Laravel's Hash facade
-- **Input Validation**: Comprehensive validation for all authentication endpoints
-- **Protected Routes**: Job creation, update, and deletion require authentication
-- **Ownership Verification**: Users can only modify jobs they created
-- **Authorization Checks**: Proper permission checking for all operations
+
+-   **Password Hashing**: Secure password storage using Laravel's Hash facade
+-   **Input Validation**: Comprehensive validation for all authentication endpoints
+-   **Protected Routes**: Job creation, update, and deletion require authentication
+-   **Ownership Verification**: Users can only modify jobs they created
+-   **Authorization Checks**: Proper permission checking for all operations
 
 ## API Endpoints
 
 ### Authentication Endpoints
 
 #### 1. User Registration
+
 ```http
 POST /api/auth/register
 ```
 
 **Request Body:**
+
 ```json
 {
     "name": "John Doe",
@@ -41,6 +45,7 @@ POST /api/auth/register
 ```
 
 **Response (201 Created):**
+
 ```json
 {
     "success": true,
@@ -61,11 +66,13 @@ POST /api/auth/register
 ```
 
 #### 2. User Login
+
 ```http
 POST /api/auth/login
 ```
 
 **Request Body:**
+
 ```json
 {
     "email": "john@example.com",
@@ -74,6 +81,7 @@ POST /api/auth/login
 ```
 
 **Response (200 OK):**
+
 ```json
 {
     "success": true,
@@ -91,12 +99,14 @@ POST /api/auth/login
 ```
 
 #### 3. User Logout (Protected)
+
 ```http
 POST /api/auth/logout
 Authorization: Bearer {access_token}
 ```
 
 **Response (200 OK):**
+
 ```json
 {
     "success": true,
@@ -105,12 +115,14 @@ Authorization: Bearer {access_token}
 ```
 
 #### 4. Get User Profile (Protected)
+
 ```http
 GET /api/auth/profile
 Authorization: Bearer {access_token}
 ```
 
 **Response (200 OK):**
+
 ```json
 {
     "success": true,
@@ -127,12 +139,14 @@ Authorization: Bearer {access_token}
 ```
 
 #### 5. Revoke All Tokens (Protected)
+
 ```http
 POST /api/auth/revoke-all-tokens
 Authorization: Bearer {access_token}
 ```
 
 **Response (200 OK):**
+
 ```json
 {
     "success": true,
@@ -144,25 +158,29 @@ Authorization: Bearer {access_token}
 ## Protected Job Operations
 
 ### Authentication Required for:
-- **Creating Jobs**: `POST /api/jobs`
-- **Updating Jobs**: `PUT/PATCH /api/jobs/{id}`
-- **Deleting Jobs**: `DELETE /api/jobs/{id}`
+
+-   **Creating Jobs**: `POST /api/jobs`
+-   **Updating Jobs**: `PUT/PATCH /api/jobs/{id}`
+-   **Deleting Jobs**: `DELETE /api/jobs/{id}`
 
 ### Public Operations (No Authentication):
-- **Viewing Jobs**: `GET /api/jobs`
-- **Viewing Single Job**: `GET /api/jobs/{id}`
-- **Filtering Jobs**: `GET /api/jobs/filter/search`
-- **Filter Options**: `GET /api/jobs/filter/options`
-- **Form Validation**: `POST /api/jobs/validate`
+
+-   **Viewing Jobs**: `GET /api/jobs`
+-   **Viewing Single Job**: `GET /api/jobs/{id}`
+-   **Filtering Jobs**: `GET /api/jobs/filter/search`
+-   **Filter Options**: `GET /api/jobs/filter/options`
+-   **Form Validation**: `POST /api/jobs/validate`
 
 ## Authorization Rules
 
 ### Job Ownership
-- Users can only update/delete jobs they created
-- `user_id` is automatically assigned when creating a job
-- Ownership is verified before any modification operation
+
+-   Users can only update/delete jobs they created
+-   `user_id` is automatically assigned when creating a job
+-   Ownership is verified before any modification operation
 
 ### Example Authorization Check:
+
 ```php
 // In JobController
 if ($job->user_id !== $request->user()->id) {
@@ -222,6 +240,7 @@ curl -X POST "http://localhost:8000/api/auth/logout" \
 ### 2. Error Handling Examples
 
 #### Unauthorized Access:
+
 ```json
 {
     "success": false,
@@ -230,6 +249,7 @@ curl -X POST "http://localhost:8000/api/auth/logout" \
 ```
 
 #### Invalid Credentials:
+
 ```json
 {
     "success": false,
@@ -238,6 +258,7 @@ curl -X POST "http://localhost:8000/api/auth/logout" \
 ```
 
 #### Missing Token:
+
 ```json
 {
     "message": "Unauthenticated."
@@ -247,6 +268,7 @@ curl -X POST "http://localhost:8000/api/auth/logout" \
 ## Database Schema
 
 ### Users Table
+
 ```sql
 CREATE TABLE users (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -261,6 +283,7 @@ CREATE TABLE users (
 ```
 
 ### Personal Access Tokens Table
+
 ```sql
 CREATE TABLE personal_access_tokens (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -277,43 +300,50 @@ CREATE TABLE personal_access_tokens (
 ```
 
 ### Job Listings Table Update
+
 ```sql
-ALTER TABLE job_listings 
+ALTER TABLE job_listings
 ADD COLUMN user_id BIGINT UNSIGNED NULL,
-ADD CONSTRAINT fk_job_listings_user_id 
+ADD CONSTRAINT fk_job_listings_user_id
 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
 ```
 
 ## Security Considerations
 
 ### 1. Token Security
-- Tokens are generated using Laravel Sanctum's secure token generation
-- Tokens can be revoked individually or all at once
-- Expired tokens are automatically invalid
+
+-   Tokens are generated using Laravel Sanctum's secure token generation
+-   Tokens can be revoked individually or all at once
+-   Expired tokens are automatically invalid
 
 ### 2. Password Security
-- Passwords are hashed using Laravel's Hash facade (bcrypt)
-- Minimum password length of 8 characters enforced
-- Password confirmation required during registration
+
+-   Passwords are hashed using Laravel's Hash facade (bcrypt)
+-   Minimum password length of 8 characters enforced
+-   Password confirmation required during registration
 
 ### 3. Input Validation
-- All inputs are validated using Laravel Form Requests
-- Email validation ensures proper email format
-- Unique email constraint prevents duplicate accounts
+
+-   All inputs are validated using Laravel Form Requests
+-   Email validation ensures proper email format
+-   Unique email constraint prevents duplicate accounts
 
 ### 4. Authorization
-- Route-level protection using `auth:sanctum` middleware
-- Resource-level authorization for job operations
-- Proper error messages without sensitive information exposure
+
+-   Route-level protection using `auth:sanctum` middleware
+-   Resource-level authorization for job operations
+-   Proper error messages without sensitive information exposure
 
 ## Testing the Authentication
 
 ### Running the Server
+
 ```bash
 php artisan serve
 ```
 
 ### Test Authentication Endpoints
+
 ```bash
 # Test registration
 curl -X POST "http://127.0.0.1:8000/api/auth/register" \
@@ -337,38 +367,39 @@ curl -X POST "http://127.0.0.1:8000/api/auth/login" \
 ## Integration with Frontend
 
 ### JavaScript Example
+
 ```javascript
 class JobPostingAPI {
-    constructor(baseURL = 'http://localhost:8000/api') {
+    constructor(baseURL = "http://localhost:8000/api") {
         this.baseURL = baseURL;
-        this.token = localStorage.getItem('auth_token');
+        this.token = localStorage.getItem("auth_token");
     }
 
     async login(email, password) {
         const response = await fetch(`${this.baseURL}/auth/login`, {
-            method: 'POST',
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
             },
-            body: JSON.stringify({ email, password })
+            body: JSON.stringify({ email, password }),
         });
-        
+
         const data = await response.json();
         if (data.success) {
             this.token = data.data.access_token;
-            localStorage.setItem('auth_token', this.token);
+            localStorage.setItem("auth_token", this.token);
         }
         return data;
     }
 
     async createJob(jobData) {
         return await fetch(`${this.baseURL}/jobs`, {
-            method: 'POST',
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.token}`
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${this.token}`,
             },
-            body: JSON.stringify(jobData)
+            body: JSON.stringify(jobData),
         });
     }
 }

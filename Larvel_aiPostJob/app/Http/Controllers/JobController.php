@@ -439,14 +439,14 @@ class JobController extends Controller
                     if (!empty($validatedData['min_salary'])) {
                         $minSalary = $validatedData['min_salary'];
                         $q->where('salary', '!=', '')
-                          ->where('salary', 'IS NOT', null)
-                          ->whereRaw("CAST(REGEXP_REPLACE(REGEXP_REPLACE(salary, '[^0-9,-]', ''), ',', '') AS UNSIGNED) >= ?", [$minSalary]);
+                            ->where('salary', 'IS NOT', null)
+                            ->whereRaw("CAST(REGEXP_REPLACE(REGEXP_REPLACE(salary, '[^0-9,-]', ''), ',', '') AS UNSIGNED) >= ?", [$minSalary]);
                     }
                     if (!empty($validatedData['max_salary'])) {
                         $maxSalary = $validatedData['max_salary'];
                         $q->where('salary', '!=', '')
-                          ->where('salary', 'IS NOT', null)
-                          ->whereRaw("CAST(REGEXP_REPLACE(REGEXP_REPLACE(salary, '[^0-9,-]', ''), ',', '') AS UNSIGNED) <= ?", [$maxSalary]);
+                            ->where('salary', 'IS NOT', null)
+                            ->whereRaw("CAST(REGEXP_REPLACE(REGEXP_REPLACE(salary, '[^0-9,-]', ''), ',', '') AS UNSIGNED) <= ?", [$maxSalary]);
                     }
                 });
             }
@@ -488,20 +488,20 @@ class JobController extends Controller
             // Enhanced sorting
             $sortBy = $validatedData['sort_by'] ?? 'posted_date';
             $sortOrder = $validatedData['sort_order'] ?? 'desc';
-            
+
             if ($sortBy === 'relevance' && !empty($validatedData['search'])) {
                 // Simple relevance scoring based on search term matches
                 $searchTerm = $validatedData['search'];
-                $query->selectRaw('job_listings.*, 
-                    (CASE 
-                        WHEN title LIKE ? THEN 10 
-                        WHEN company LIKE ? THEN 5 
-                        WHEN description LIKE ? THEN 3 
-                        WHEN location LIKE ? THEN 2 
-                        ELSE 1 
+                $query->selectRaw('job_listings.*,
+                    (CASE
+                        WHEN title LIKE ? THEN 10
+                        WHEN company LIKE ? THEN 5
+                        WHEN description LIKE ? THEN 3
+                        WHEN location LIKE ? THEN 2
+                        ELSE 1
                     END) as relevance_score', [
                     '%' . $searchTerm . '%',
-                    '%' . $searchTerm . '%', 
+                    '%' . $searchTerm . '%',
                     '%' . $searchTerm . '%',
                     '%' . $searchTerm . '%'
                 ])->orderBy('relevance_score', 'desc');
@@ -526,7 +526,7 @@ class JobController extends Controller
                     ->groupBy('job_type')
                     ->orderBy('count', 'desc')
                     ->first()?->job_type ?? 'N/A',
-                'remote_percentage' => $jobs->total() > 0 ? 
+                'remote_percentage' => $jobs->total() > 0 ?
                     round((Job::where('location', 'LIKE', '%remote%')->count() / Job::count()) * 100, 1) : 0
             ];
 

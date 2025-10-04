@@ -7,27 +7,30 @@ The Job Filtering API provides comprehensive search and filtering capabilities f
 ## Features
 
 ### 🔍 Search & Filter Capabilities
-- **Text Search**: Search across job titles, descriptions, companies, and locations
-- **Category Filtering**: Filter by specific job categories
-- **Location Filtering**: Search by location with partial matching
-- **Job Type Filtering**: Filter by employment type (full-time, part-time, etc.)
-- **Salary Range Filtering**: Filter by minimum and maximum salary with smart parsing
-- **Date Range Filtering**: Filter by posting date and application deadline
-- **Skills Filtering**: Search for specific skills in job requirements
+
+-   **Text Search**: Search across job titles, descriptions, companies, and locations
+-   **Category Filtering**: Filter by specific job categories
+-   **Location Filtering**: Search by location with partial matching
+-   **Job Type Filtering**: Filter by employment type (full-time, part-time, etc.)
+-   **Salary Range Filtering**: Filter by minimum and maximum salary with smart parsing
+-   **Date Range Filtering**: Filter by posting date and application deadline
+-   **Skills Filtering**: Search for specific skills in job requirements
 
 ### 📊 Advanced Features
-- **Pagination**: Configurable page size and navigation
-- **Sorting**: Multiple sort options with custom ordering including relevance scoring
-- **Remote Job Filtering**: Filter for remote-only positions
-- **Urgent Jobs**: Filter for jobs with upcoming deadlines
-- **Application Status**: Filter jobs that have received applications
-- **Salary Disclosure**: Filter jobs that publicly display salary information
+
+-   **Pagination**: Configurable page size and navigation
+-   **Sorting**: Multiple sort options with custom ordering including relevance scoring
+-   **Remote Job Filtering**: Filter for remote-only positions
+-   **Urgent Jobs**: Filter for jobs with upcoming deadlines
+-   **Application Status**: Filter jobs that have received applications
+-   **Salary Disclosure**: Filter jobs that publicly display salary information
 
 ### 📈 Analytics & Insights
-- **Result Statistics**: Total matches, pagination info, applied filters
-- **Job Market Insights**: Average jobs per company, most common job types
-- **Remote Work Statistics**: Percentage of remote jobs available
-- **Filter Analytics**: Track which filters are most commonly used
+
+-   **Result Statistics**: Total matches, pagination info, applied filters
+-   **Job Market Insights**: Average jobs per company, most common job types
+-   **Remote Work Statistics**: Percentage of remote jobs available
+-   **Filter Analytics**: Track which filters are most commonly used
 
 ## Base URLs
 
