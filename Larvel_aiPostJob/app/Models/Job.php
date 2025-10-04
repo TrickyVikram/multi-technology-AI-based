@@ -21,7 +21,8 @@ class Job extends Model
         'requirements',
         'posted_date',
         'application_deadline',
-        'category_id'
+        'category_id',
+        'user_id'
     ];
 
     protected $casts = [
@@ -36,6 +37,14 @@ class Job extends Model
     public function category()
     {
         return $this->belongsTo(JobCategory::class, 'category_id');
+    }
+
+    /**
+     * Get the user who posted the job.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
     /**
