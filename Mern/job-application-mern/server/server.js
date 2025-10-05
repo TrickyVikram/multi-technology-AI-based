@@ -35,6 +35,7 @@ connectDB();
 // Routes
 app.use('/api/applications', require('./routes/applications'));
 app.use('/api/job-apply', require('./routes/jobApply'));
+app.use('/api/jobs', require('./routes/jobs'));
 
 // Health check route
 app.get('/api/health', (req, res) => {
