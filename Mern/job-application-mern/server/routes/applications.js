@@ -189,6 +189,11 @@ router.get('/', async (req, res) => {
         if (req.query.position) filter.position = req.query.position;
         if (req.query.status) filter.status = req.query.status;
         if (req.query.experienceLevel) filter.experienceLevel = req.query.experienceLevel;
+        if (req.query.jobType) filter.jobType = req.query.jobType;
+        if (req.query.city) filter['address.city'] = req.query.city;
+        if (req.query.state) filter['address.state'] = req.query.state;
+        if (req.query.country) filter['address.country'] = req.query.country;
+        if (req.query.jobCategory) filter.jobCategory = req.query.jobCategory;
 
         // Get applications with pagination
         const applications = await JobApplication

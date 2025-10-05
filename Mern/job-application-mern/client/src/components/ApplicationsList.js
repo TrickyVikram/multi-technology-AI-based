@@ -24,7 +24,12 @@ const ApplicationsList = () => {
     const [filters, setFilters] = useState({
         position: '',
         status: '',
-        experienceLevel: ''
+        experienceLevel: '',
+        jobType: '',
+        jobCategory: '',
+        city: '',
+        state: '',
+        country: ''
     });
     const [pagination, setPagination] = useState({
         currentPage: 1,
@@ -68,6 +73,17 @@ const ApplicationsList = () => {
         'Lead/Manager'
     ];
 
+    // Job type options
+    const jobTypes = ['Full-time', 'Part-time', 'Contract', 'Internship', 'Temporary', 'Other'];
+
+    // Location options (example static list; replace with dynamic source if available)
+    const cities = ['San Francisco', 'New York', 'Seattle', 'Austin', 'Remote'];
+    const states = ['CA', 'NY', 'WA', 'TX'];
+    const countries = ['United States', 'Canada', 'United Kingdom', 'Remote'];
+
+    // Job categories (example)
+    const jobCategories = ['Engineering', 'Design', 'Product', 'Marketing', 'Sales', 'General'];
+
     // Fetch applications
     const fetchApplications = async (page = 1, currentFilters = filters) => {
         setLoading(true);
@@ -106,7 +122,7 @@ const ApplicationsList = () => {
 
     // Clear filters
     const clearFilters = () => {
-        const clearedFilters = { position: '', status: '', experienceLevel: '' };
+        const clearedFilters = { position: '', status: '', experienceLevel: '', jobType: '', city: '', state: '', country: '' };
         setFilters(clearedFilters);
         fetchApplications(1, clearedFilters);
     };
@@ -245,6 +261,53 @@ const ApplicationsList = () => {
                             <Button variant="outline-secondary" onClick={clearFilters} className="mb-3">
                                 Clear Filters
                             </Button>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={3}>
+                            <Form.Group className="mb-3">
+                                <Form.Label>Job Type</Form.Label>
+                                <Form.Select value={filters.jobType} onChange={(e) => handleFilterChange('jobType', e.target.value)}>
+                                    <option value="">All Types</option>
+                                    {jobTypes.map(t => <option key={t} value={t}>{t}</option>)}
+                                </Form.Select>
+                            </Form.Group>
+                        </Col>
+                        <Col md={3}>
+                            <Form.Group className="mb-3">
+                                <Form.Label>Category</Form.Label>
+                                <Form.Select value={filters.jobCategory} onChange={(e) => handleFilterChange('jobCategory', e.target.value)}>
+                                    <option value="">All Categories</option>
+                                    {jobCategories.map(c => <option key={c} value={c}>{c}</option>)}
+                                </Form.Select>
+                            </Form.Group>
+                        </Col>
+                        <Col md={3}>
+                            <Form.Group className="mb-3">
+                                <Form.Label>City</Form.Label>
+                                <Form.Select value={filters.city} onChange={(e) => handleFilterChange('city', e.target.value)}>
+                                    <option value="">All Cities</option>
+                                    {cities.map(c => <option key={c} value={c}>{c}</option>)}
+                                </Form.Select>
+                            </Form.Group>
+                        </Col>
+                        <Col md={3}>
+                            <Form.Group className="mb-3">
+                                <Form.Label>State</Form.Label>
+                                <Form.Select value={filters.state} onChange={(e) => handleFilterChange('state', e.target.value)}>
+                                    <option value="">All States</option>
+                                    {states.map(s => <option key={s} value={s}>{s}</option>)}
+                                </Form.Select>
+                            </Form.Group>
+                        </Col>
+                        <Col md={3}>
+                            <Form.Group className="mb-3">
+                                <Form.Label>Country</Form.Label>
+                                <Form.Select value={filters.country} onChange={(e) => handleFilterChange('country', e.target.value)}>
+                                    <option value="">All Countries</option>
+                                    {countries.map(c => <option key={c} value={c}>{c}</option>)}
+                                </Form.Select>
+                            </Form.Group>
                         </Col>
                     </Row>
                 </Card.Body>

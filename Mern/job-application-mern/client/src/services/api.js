@@ -116,3 +116,16 @@ export const jobApplicationAPI = {
 };
 
 export default api;
+
+// Jobs API
+export const jobsAPI = {
+    // Fetch jobs with optional params
+    getJobs: async (params = {}) => {
+        try {
+            const response = await api.get('/jobs', { params });
+            return response.data;
+        } catch (error) {
+            throw error.response?.data || error;
+        }
+    }
+};

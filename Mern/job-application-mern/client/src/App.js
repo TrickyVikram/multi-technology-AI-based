@@ -6,6 +6,7 @@ import JobApplicationForm from './components/JobApplicationForm';
 import JobApplyForm from './components/JobApplyForm';
 import ApplicationSuccess from './components/ApplicationSuccess';
 import ApplicationsList from './components/ApplicationsList';
+import JobList from './components/JobList';
 
 function App() {
     return (
@@ -45,6 +46,7 @@ function App() {
                     <Route path="/full-form" element={<JobApplicationForm />} />
                     <Route path="/success" element={<ApplicationSuccess />} />
                     <Route path="/applications" element={<ApplicationsList />} />
+                    <Route path="/jobs" element={<JobList />} />
                 </Routes>
             </Container>
 
