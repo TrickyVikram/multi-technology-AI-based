@@ -1,47 +1,72 @@
-import React, { useEffect, useState } from 'react';
-import { jobsAPI } from '../services/api';
-import { Spinner, Alert } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Container, Row, Col, Alert, Spinner } from 'react-bootstrap';
 import JobCard from './JobCard';
+import { fetchJobs } from '../services/api';
 
-const JobList = ({ params = {} }) => {
+const JobList = () => {
     const [jobs, setJobs] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
-
-    const fetchJobs = async (p = {}) => {
-        setLoading(true);
-        setError('');
-        try {
-            const response = await jobsAPI.getJobs({ ...params, ...p });
-            if (response.success) {
-                setJobs(response.data);
-            } else {
-                setError(response.message || 'Failed to load jobs');
-            }
-        } catch (err) {
-            console.error('Error fetching jobs', err);
-            setError(err.message || 'Server error fetching jobs');
-        } finally {
-            setLoading(false);
-        }
-    };
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetchJobs();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [JSON.stringify(params)]);
+        const loadJobs = async () => {
+            try {
+                setLoading(true);
+                setError(null);
+                const jobsData = await fetchJobs();
+                setJobs(jobsData);
+            } catch (err) {
+                setError('Failed to load jobs. Please try again later.');
+                console.error('Error fetching jobs:', err);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    if (loading) return <div className="text-center py-4"><Spinner animation="border" /></div>;
-    if (error) return <Alert variant="danger">{error}</Alert>;
+        loadJobs();
+    }, []);
 
-    if (!jobs || jobs.length === 0) return <div className="text-center py-4 text-muted">No jobs found</div>;
+    if (loading) {
+        return (
+            <Container className="py-5">
+                <div className="text-center">
+                    <Spinner animation="border" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                    <p className="mt-2">Loading jobs...</p>
+                </div>
+            </Container>
+        );
+    }
+
+    if (error) {
+        return (
+            <Container className="py-5">
+                <Alert variant="danger">
+                    <Alert.Heading>Error</Alert.Heading>
+                    <p>{error}</p>
+                </Alert>
+            </Container>
+        );
+    }
 
     return (
-        <div>
-            {jobs.map(job => (
-                <JobCard key={job._id || job.title} job={job} />
-            ))}
-        </div>
+        <Container className="py-4">
+            <h2 className="mb-4">Available Jobs</h2>
+            {jobs.length === 0 ? (
+                <Alert variant="info">
+                    <p>No jobs available at the moment.</p>
+                </Alert>
+            ) : (
+                <Row>
+                    {jobs.map((job) => (
+                        <Col key={job._id} md={6} lg={4} className="mb-4">
+                            <JobCard job={job} />
+                        </Col>
+                    ))}
+                </Row>
+            )}
+        </Container>
     );
 };
 
