@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const Job = require('../models/Job');
 
+const { body, validationResult } = require('express-validator');
+
 // GET /api/jobs
 // Optional query params: page, limit, category, city, state, country, type, q (text search)
 router.get('/', async (req, res) => {
@@ -35,3 +37,41 @@ router.get('/', async (req, res) => {
 });
 
 module.exports = router;
+
+// POST /api/jobs - create a new job posting
+router.post('/', [
+    body('title').trim().isLength({ min: 3 }).withMessage('Title is required and should be at least 3 characters'),
+    body('type').optional().isIn(['Full-time', 'Part-time', 'Contract', 'Internship', 'Temporary', 'Other']),
+    body('category').optional().trim(),
+    body('location.city').optional().trim(),
+    body('location.state').optional().trim(),
+    body('location.country').optional().trim()
+], async (req, res) => {
+    try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ success: false, errors: errors.array() });
+        }
+
+        const jobData = {
+            title: req.body.title,
+            description: req.body.description || '',
+            type: req.body.type || 'Full-time',
+            category: req.body.category || 'General',
+            location: {
+                city: req.body.location?.city || '',
+                state: req.body.location?.state || '',
+                country: req.body.location?.country || ''
+            },
+            isRemote: req.body.isRemote === true || req.body.isRemote === 'true'
+        };
+
+        const job = new Job(jobData);
+        await job.save();
+
+        res.status(201).json({ success: true, data: job });
+    } catch (error) {
+        console.error('Error creating job:', error);
+        res.status(500).json({ success: false, message: 'Server error creating job' });
+    }
+});

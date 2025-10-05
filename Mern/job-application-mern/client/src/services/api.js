@@ -128,4 +128,14 @@ export const jobsAPI = {
             throw error.response?.data || error;
         }
     }
+    ,
+    // Create a new job posting
+    createJob: async (jobData) => {
+        try {
+            const response = await api.post('/jobs', jobData);
+            return response.data;
+        } catch (error) {
+            throw error.response?.data || error;
+        }
+    }
 };

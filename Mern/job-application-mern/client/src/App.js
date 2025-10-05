@@ -7,6 +7,7 @@ import JobApplyForm from './components/JobApplyForm';
 import ApplicationSuccess from './components/ApplicationSuccess';
 import ApplicationsList from './components/ApplicationsList';
 import JobList from './components/JobList';
+import JobPostForm from './components/JobPostForm';
 
 function App() {
     return (
@@ -23,6 +24,8 @@ function App() {
                             <Nav.Link href="/">Job Apply Form</Nav.Link>
                             <Nav.Link href="/full-form">Full Application</Nav.Link>
                             <Nav.Link href="/applications">View Applications</Nav.Link>
+                            <Nav.Link href="/jobs">Jobs</Nav.Link>
+                            <Nav.Link href="/post-job">Post Job</Nav.Link>
                             <Nav.Item className="ms-3">
                                 <ThemeToggle />
                             </Nav.Item>
@@ -47,6 +50,7 @@ function App() {
                     <Route path="/success" element={<ApplicationSuccess />} />
                     <Route path="/applications" element={<ApplicationsList />} />
                     <Route path="/jobs" element={<JobList />} />
+                    <Route path="/post-job" element={<JobPostForm />} />
                 </Routes>
             </Container>
 
