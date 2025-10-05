@@ -66,6 +66,12 @@ const JobApplicationSchema = new mongoose.Schema({
     },
 
     // Job Information
+    jobType: {
+        type: String,
+        required: [true, 'Job type is required'],
+        enum: ['Full-time', 'Part-time', 'Contract', 'Internship', 'Temporary', 'Other'],
+        default: 'Full-time'
+    },
     position: {
         type: String,
         required: [true, 'Position is required'],
@@ -82,6 +88,12 @@ const JobApplicationSchema = new mongoose.Schema({
             'Mobile Developer',
             'Other'
         ]
+    },
+    // Optional category for broader grouping (e.g., Engineering, Design)
+    jobCategory: {
+        type: String,
+        trim: true,
+        default: 'General'
     },
     experienceLevel: {
         type: String,
@@ -225,5 +237,11 @@ JobApplicationSchema.index({ email: 1 });
 JobApplicationSchema.index({ position: 1 });
 JobApplicationSchema.index({ status: 1 });
 JobApplicationSchema.index({ submittedAt: -1 });
+// Indexes for new filtering fields
+JobApplicationSchema.index({ jobType: 1 });
+JobApplicationSchema.index({ 'address.city': 1 });
+JobApplicationSchema.index({ 'address.state': 1 });
+JobApplicationSchema.index({ 'address.country': 1 });
+JobApplicationSchema.index({ jobCategory: 1 });
 
 module.exports = mongoose.model('JobApplication', JobApplicationSchema);
