@@ -1,12 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './App.css';
 
 function App() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const typingTimeoutRef = useRef(null);
 
   const sendMessage = async () => {
     if (!input.trim()) return;
+
+    if (typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current);
+      typingTimeoutRef.current = null;
+    }
+    setIsTyping(false);
 
     const userMessage = {
       text: input,
@@ -35,6 +43,7 @@ function App() {
     }
 
     setInput('');
+    setIsTyping(false);
   };
 
   const handleKeyPress = (e) => {
@@ -42,6 +51,24 @@ function App() {
       sendMessage();
     }
   };
+
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setInput(value);
+
+    setIsTyping(true);
+    if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+    typingTimeoutRef.current = setTimeout(() => {
+      setIsTyping(false);
+      typingTimeoutRef.current = null;
+    }, 2000); 
+  };
+
+  useEffect(() => {
+    return () => {
+      if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+    };
+  }, []);
 
   return (
     <div className="App">
@@ -56,12 +83,17 @@ function App() {
               <div className="timestamp">{msg.timestamp}</div>
             </div>
           ))}
+          {isTyping && (
+            <div className="typing-indicator" aria-live="polite">
+              <span className="typing-dots" /> Typing...
+            </div>
+          )}
         </div>
         <div className="input-container">
           <input
             type="text"
             value={input}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={handleInputChange}
             onKeyPress={handleKeyPress}
             placeholder="Type your message..."
           />

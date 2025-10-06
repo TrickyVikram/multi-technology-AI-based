@@ -71,3 +71,46 @@ button:hover {
   font-size: 0.75rem;
   color: #000000;
 }
+
+.typing-indicator {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.typing-dots {
+  width: 20px;
+  height: 8px;
+  background: transparent;
+  position: relative;
+}
+
+.typing-dots::before,
+.typing-dots::after,
+.typing-dots span {
+  content: '';
+}
+
+.typing-dots::before,
+.typing-dots::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 6px;
+  height: 6px;
+  background: #999;
+  border-radius: 50%;
+  animation: typingBounce 1s infinite;
+}
+
+.typing-dots::before { left: 0; animation-delay: 0s; }
+.typing-dots::after  { left: 7px; animation-delay: 0.15s; }
+.typing-dots span   { left: 14px; position: absolute; width: 6px; height: 6px; background: #999; border-radius: 50%; animation: typingBounce 1s infinite; animation-delay: 0.3s; }
+
+@keyframes typingBounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.6; }
+  30% { transform: translateY(-6px); opacity: 1; }
+}
