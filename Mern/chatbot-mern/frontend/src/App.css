@@ -60,3 +60,14 @@ button {
 button:hover {
   background-color: #0056b3;
 }
+
+.message {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.timestamp {
+  font-size: 0.75rem;
+  color: #000000;
+}

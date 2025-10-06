@@ -8,7 +8,11 @@ function App() {
   const sendMessage = async () => {
     if (!input.trim()) return;
 
-    const userMessage = { text: input, sender: 'user' };
+    const userMessage = {
+      text: input,
+      sender: 'user',
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    };
     setMessages(prev => [...prev, userMessage]);
 
     try {
@@ -20,7 +24,11 @@ function App() {
         body: JSON.stringify({ message: input }),
       });
       const data = await response.json();
-      const botMessage = { text: data.response, sender: 'bot' };
+      const botMessage = {
+        text: data.response,
+        sender: 'bot',
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      };
       setMessages(prev => [...prev, botMessage]);
     } catch (error) {
       console.error('Error sending message:', error);
@@ -42,7 +50,10 @@ function App() {
         <div className="messages">
           {messages.map((msg, index) => (
             <div key={index} className={`message ${msg.sender}`}>
-              <strong>{msg.sender === 'user' ? 'You' : 'Bot'}:</strong> {msg.text}
+              <div className="message-content">
+                <strong>{msg.sender === 'user' ? 'You' : 'Bot'}:</strong> {msg.text}
+              </div>
+              <div className="timestamp">{msg.timestamp}</div>
             </div>
           ))}
         </div>
