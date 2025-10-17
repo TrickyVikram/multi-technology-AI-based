@@ -1,12 +1,20 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+// Authentication Routes
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');
+    Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
+    Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'login']);
+    Route::post('/register', [App\Http\Controllers\Auth\RegisterController::class, 'register']);
+});
 
-Auth::routes();
+Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])
+    ->name('logout')
+    ->middleware('auth');
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
