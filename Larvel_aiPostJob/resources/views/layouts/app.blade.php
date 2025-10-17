@@ -6,6 +6,11 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    
+    <!-- Set up CSRF token for AJAX requests -->
+    <script>
+        window.Laravel = {!! json_encode(['csrfToken' => csrf_token()]) !!};
+    </script>
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
@@ -15,9 +20,11 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <script src="{{ asset('js/csrf-handler.js') }}" defer>
 </head>
 <body>
     <div id="app">
+        @include('shared.validation-errors')
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
