@@ -54,6 +54,17 @@ Route::middleware(['auth', 'role:freelancer'])->group(function () {
     Route::get('/freelancer/profile', function () {
         return view('freelancer.profile', ['user' => auth()->user()]);
     })->name('freelancer.profile');
+
+    Route::get('/freelancer/dashboard', function () {
+        return view('freelancer.dashboard', ['user' => auth()->user()]);
+    })->name('freelancer.dashboard');
+});
+
+// Freelancer routes
+Route::middleware(['auth', 'role:freelancer'])->group(function () {
+    Route::get('/freelancer/profile', function () {
+        return view('freelancer.profile', ['user' => auth()->user()]);
+    })->name('freelancer.profile');
 });
 
 // Client routes

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\Request; // <-- 1. ADD THIS IMPORT STATEMENT
+
 
 class LoginController extends Controller
 {
@@ -22,11 +22,29 @@ class LoginController extends Controller
     use AuthenticatesUsers;
 
     /**
-     * Where to redirect users after login.
+     * Get the post login redirect path for the user.
      *
-     * @var string
+     * @return string
      */
-    protected $redirectTo = '/home';
+    protected function redirectTo()
+    {
+        if (!Auth::check()) {
+            return '/home';
+        }
+
+        $user = Auth::user();
+        
+        switch ($user->role) {
+            case 'admin':
+                return '/admin/dashboard';
+            case 'company':
+                return '/company/jobs';
+            case 'freelancer':
+                return '/freelancer/profile';
+            default:
+                return '/home';
+        }
+    }
 
     /**
      * Create a new controller instance.
